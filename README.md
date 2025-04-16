@@ -1,93 +1,90 @@
-🧠 VAPAI — Segmentador de Prendas
-VAPAI es una web app que permite segmentar prendas de ropa en imágenes usando modelos avanzados de visión por computadora a través de ComfyUI. Pensado para facilitar procesos creativos o técnicos, este sistema detecta prendas específicas (como "jean", "sweater", "camisa") y las recorta con fondo transparente para su posterior uso.
+# 🧠 VAPAI – Segmentador de Prendas
 
-<!-- podés agregar una imagen acá si tenés una -->
+Web app que permite segmentar prendas de ropa en imágenes. Usando modelos de vision como **GroundingDINO**, **SAM**, la app detecta y recorta ropa a partir de un prompt como `"jean"` o `"sweater"`, devolviendo una imagen con fondo transparente lista para usar.
 
-🌐 ¿Cómo funciona?
-El usuario sube una imagen y escribe el nombre de la prenda que desea segmentar (prompt).
+---
 
-El frontend envía la imagen al backend, donde es procesada y convertida a base64.
+## 🚀 ¿Cómo usar?
 
-El backend construye un flujo de trabajo dinámico y lo envía a ComfyUI expuesto vía ngrok.
+1. **Accedé a la app** en [🔗 vercel.app](https://front-vapai-app.vercel.app/)
+2. **Escribí un prompt** como `jean`, `camisa`, `face`, etc.
+3. **Subí una imagen** con buena luz y fondo neutro (blanco recomendado).
+4. **Hacé clic en “Segmentar”**
+5. La app procesará la imagen y podrás **descargar la prenda segmentada**.
 
-ComfyUI ejecuta el nodo de segmentación (SegmentAnythingUltra V2) y devuelve una imagen con la prenda recortada.
+---
 
-El backend recibe la imagen y la mantiene en memoria.
+## 🔬 ¿Qué hace esta app?
 
-El frontend hace "polling" hasta que la imagen esté lista, la muestra al usuario y permite descargarla.
+- Recibe una imagen y un prompt.
+- Usa modelos de visión para detectar y recortar esa prenda.
+- Devuelve una imagen con fondo transparente.
+- Todo esto ocurre en segundos y sin necesidad de entrenar ningún modelo.
 
-🧰 Tecnologías usadas
-🖼️ Modelos utilizados
-SegmentAnythingUltra V2 (SAM + Grounding DINO + VITMatte)
+---
 
-LoadImageFromBase64 (nodo personalizado)
+## 🧰 Tecnologías usadas
 
-Send Http request (nodo para enviar imágenes al backend)
+| Parte    | Tecnología                  |
+| -------- | --------------------------- |
+| Frontend | React + Vite + Tailwind CSS |
+| Backend  | Node.js + Express           |
+| IA       | ComfyUI (local) vía ngrok   |
 
-🖥️ Stack
-Frontend: React + Vite + Tailwind CSS
+---
 
-Backend: Node.js + Express + Sharp
+## 🧠 Modelos utilizados
 
-ComfyUI: Corriendo localmente, expuesto mediante ngrok
+- **GroundingDINO** → interpreta el prompt y encuentra dónde está la prenda. https://github.com/IDEA-Research/GroundingDINO
+- **SAM (Segment Anything Model)** → recorta con precisión. https://github.com/facebookresearch/sam2
 
-Deploy:
+También se utilizan nodos personalizados como:
 
-Frontend en Vercel
+- `LoadImageFromBase64`
+- `Send Http Request`
 
-Backend en Render
+---
 
-ComfyUI en local + ngrok
+## 🧪 Instalación local
 
-🧪 ¿Cómo probarlo?
-Accedé a la web app 🟣 Link a VAPAI (Vercel)
+### Requisitos
 
-Escribí un prompt simple (ej: jean, sweater, camisa, face, etc).
+- Node.js
+- Python + entorno virtual para ComfyUI
+- Cuenta en [ngrok](https://ngrok.com) (o similar) para exponer el backend de IA
 
-Subí una imagen con fondo blanco y buena luz.
+### Cloná el repositorio principal
 
-Hacé clic en Segmentar
+Este repositorio usa submodules para el frontend y el backend. No olvides clonar con --recurse-submodules:
 
-Esperá unos segundos y descargá la prenda segmentada.
+```bash
+git clone --recurse-submodules https://github.com/jgoyret/vapai-project
+cd vapai-project
+```
 
-🚀 Para desarrolladores
-Estructura del repo
-bash
-Copy
-Edit
-vapai-project/
-├── front/ # Frontend con React + Vite
-│ └── App.jsx
-│ └── ...
-├── back/ # Backend con Express
-│ └── index.js
-│ └── workflow_segment.json
-├── README.md
-Variables de entorno necesarias
-En /back/.env
-env
-Copy
-Edit
-NGROK_URL=https://xxxxxxx.ngrok-free.app
-PORT=3001
-🧠 Sobre la segmentación
-Este sistema se basa en una combinación de modelos de segmentación de última generación que permiten identificar objetos dentro de una imagen sin necesidad de entrenamiento adicional. Gracias al uso de GroundingDINO, el sistema puede interpretar prompts textuales como "jean" o "sweater", mientras que SAM recorta la región identificada con alta precisión. La mejora final se realiza con VITMatte para lograr bordes suaves y precisos.
+Instalar frontend
 
-📦 Roadmap
-Subida de imágenes
+```bash
+cd front-vapai-app
+npm install
+npm run dev
+```
 
-Segmentación en memoria (sin guardar en disco)
+Instalar backend
 
-Descarga de imagen segmentada
+```bash
+cd ../back-vapai-app
+npm install
+```
 
-Soporte para múltiples imágenes (batch .zip)
+Agregá un archivo .env
 
-Feedback visual más avanzado (barra de progreso)
+```bash
+NGROK_URL=https://tulink.ngrok-free.app
+```
 
-WebSocket feedback desde ComfyUI
+ejecuta el backend:
 
-Deploy completo de ComfyUI en la nube
-
-🧵 Créditos
-Este proyecto fue realizado como parte de una prueba técnica para VAPAI Studio.
-Hecho con ❤️ por @juangoyret
+```bash
+node index.js
+```
