@@ -40,8 +40,49 @@ Web app que permite segmentar prendas de ropa en imágenes. Usando modelos de vi
 
 También se utilizan nodos personalizados como:
 
-- `LoadImageFromBase64`
-- `Send Http Request`
+- `LoadImageFromBase64` https://github.com/glowcone/comfyui-base64-to-image
+- `Send Http Request` https://github.com/cuongloveit/comfy_http_request
+- `SegmentAnythingUltra V2` https://github.com/chflame163/ComfyUI_LayerStyle_Advance
+
+---
+
+## 🧩 Nodos utilizados en ComfyUI
+
+Para realizar la segmentación de prendas, el workflow utiliza tres nodos principales en ComfyUI:
+
+---
+
+### 1. `LoadImageFromBase64`
+
+Este nodo personalizado permite **cargar una imagen desde un string base64**, evitando la necesidad de guardar archivos en disco.
+deal para aplicaciones desplegadas en la nube o donde se trabaja con imágenes en memoria.
+
+---
+
+### 2. `SegmentAnythingUltra V2`
+
+Nodo avanzado de segmentación que combina tres modelos potentes:
+
+- **GroundingDINO**: para localizar la prenda a partir de un texto (`prompt`).
+- **SAM (Segment Anything Model)**: para realizar la segmentación.
+- **VITMatte**: para mejorar los bordes del recorte.
+
+⚙️ **Parámetros clave utilizados**:
+
+| Parámetro        | Descripción                                           |
+| ---------------- | ----------------------------------------------------- |
+| `prompt`         | Texto que describe la prenda (ej: `"jean"`).          |
+| `threshold`      | Confianza mínima para detectar objetos (ej: `0.3`).   |
+| `detail_method`  | Método de refinado de bordes (`VITMatte`).            |
+| `process_detail` | Booleano para activar el refinado (`true`).           |
+| `device`         | `"cuda"` o `"cpu"` según disponibilidad.              |
+| `max_megapixels` | Límite de resolución para evitar errores por memoria. |
+
+---
+
+### 3. `Send Http Request`
+
+Este nodo envía la imagen segmentada **de vuelta al backend**, una vez finalizado el proceso.
 
 ---
 
