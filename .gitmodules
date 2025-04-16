@@ -1,0 +1,7 @@
+[submodule "front-vapai-app"]
+  path = front-vapai-app
+  url = https://github.com/jgoyret/front-vapai-app.git
+
+[submodule "back-vapai-app"]
+  path = back-vapai-app
+  url = https://github.com/jgoyret/back-vapai-app.git
