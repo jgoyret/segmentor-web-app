@@ -50,14 +50,10 @@ También se utilizan nodos personalizados como:
 
 Para realizar la segmentación de prendas, el workflow utiliza tres nodos principales en ComfyUI:
 
----
-
 ### 1. `LoadImageFromBase64`
 
 Este nodo personalizado permite **cargar una imagen desde un string base64**, evitando la necesidad de guardar archivos en disco.
 deal para aplicaciones desplegadas en la nube o donde se trabaja con imágenes en memoria.
-
----
 
 ### 2. `SegmentAnythingUltra V2`
 
@@ -77,8 +73,6 @@ Nodo avanzado de segmentación que combina tres modelos potentes:
 | `process_detail` | Booleano para activar el refinado (`true`).           |
 | `device`         | `"cuda"` o `"cpu"` según disponibilidad.              |
 | `max_megapixels` | Límite de resolución para evitar errores por memoria. |
-
----
 
 ### 3. `Send Http Request`
 
